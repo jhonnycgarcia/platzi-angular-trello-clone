@@ -10,6 +10,7 @@ export class TableComponent implements OnInit {
 
   public products: Product[] = [];
   public columns: string[] = ['id', 'title', 'price', 'cover'];
+  public total = 0;
 
   constructor(
     private httpClient: HttpClient
@@ -20,6 +21,9 @@ export class TableComponent implements OnInit {
     .subscribe((data) => {
       // console.log('data', data);
       this.products = data;
+      this.total = (this.products.length > 0)
+        ? this.products.map((product) => product.price).reduce((prev, next) => prev + next, 0)
+        : 0;
     });
   }
 
