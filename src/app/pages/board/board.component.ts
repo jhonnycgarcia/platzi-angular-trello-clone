@@ -88,13 +88,16 @@ export class BoardComponent implements OnInit {
   }
 
   openDialog(todo: ToDo){
-    this.dialogSrv.open(TodoDialogComponent, {
+    const dialogRef = this.dialogSrv.open(TodoDialogComponent, {
       minWidth: '300px',
       maxWidth: '50%',
       autoFocus: false,
       data: todo
     });
 
+    dialogRef.closed.subscribe((result) => {
+      console.log(result);
+    });
   }
 
 }

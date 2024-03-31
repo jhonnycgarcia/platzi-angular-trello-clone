@@ -1,6 +1,7 @@
-import { DialogRef } from '@angular/cdk/dialog';
-import { Component, OnInit } from '@angular/core';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
 import { faCheckSquare, faBars, faUser, faTag, faClock, faClose, faCheckToSlot } from '@fortawesome/free-solid-svg-icons';
+import { ToDo } from 'src/app/models/todo.model';
 
 @Component({
   selector: 'app-todo-dialog',
@@ -16,15 +17,24 @@ export class TodoDialogComponent implements OnInit {
   public faCheckSquare = faCheckSquare;
   public faClock = faClock;
 
+  public todo: ToDo;
+
   constructor(
-    private dialogRef: DialogRef
-  ) { }
+    private dialogRef: DialogRef<DialogOutputData>,
+    @Inject(DIALOG_DATA) private data: ToDo,
+  ) {
+    this.todo = this.data;
+  }
 
   ngOnInit(): void {
   }
 
-  closeDialog(){
-    this.dialogRef.close();
+  closeDialog(status: boolean = false){
+    this.dialogRef.close({status});
   }
 
+}
+
+interface DialogOutputData {
+  status: boolean
 }
