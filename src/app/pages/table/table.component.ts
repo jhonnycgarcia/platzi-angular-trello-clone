@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
+import { DataSourceProduct } from './data-source';
 
 @Component({
   selector: 'app-table',
@@ -8,8 +9,8 @@ import { Product } from 'src/app/models/product.model';
 })
 export class TableComponent implements OnInit {
 
-  public products: Product[] = [];
-  public columns: string[] = ['id', 'title', 'price', 'cover'];
+  public dataSource$: DataSourceProduct = new DataSourceProduct();
+  public columns: string[] = ['id', 'title', 'price', 'cover', 'actions'];
   public total = 0;
 
   constructor(
@@ -20,11 +21,17 @@ export class TableComponent implements OnInit {
     this.httpClient.get<Product[]>('https://api.escuelajs.co/api/v1/products')
     .subscribe((data) => {
       // console.log('data', data);
-      this.products = data;
-      this.total = (this.products.length > 0)
-        ? this.products.map((product) => product.price).reduce((prev, next) => prev + next, 0)
-        : 0;
+
+      // this.products = data;
+      this.dataSource$.init(data);
+
+      this.total = this.dataSource$.getTotal();
     });
+  }
+
+  update(product: Product): void {
+    console.log('update', product);
+    this.dataSource$.update(product.id, {price: 20});
   }
 
 }

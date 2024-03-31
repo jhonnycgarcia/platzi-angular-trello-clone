@@ -7,7 +7,7 @@
         <table
             class="w-full text-sm test-left text-gray-500"
             cdk-table 
-            [dataSource]="products"
+            [dataSource]="dataSource$"
         >
 
             <!-- Id Column -->
@@ -36,6 +36,15 @@
                 <th cdk-header-cell class="py-3 px-6" *cdkHeaderCellDef>Cover</th>
                 <td cdk-cell class="py-4 px-6" *cdkCellDef="let element">
                 <img class="w-10" [src]="element.images[0]" alt=""></td>
+                <th cdk-footer-cell class="py-3 px-6" *cdkFooterCellDef></th>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container cdkColumnDef="actions">
+                <th cdk-header-cell class="py-3 px-6" *cdkHeaderCellDef>Actions</th>
+                <td cdk-cell class="py-4 px-6" *cdkCellDef="let element">
+                    <app-btn (click)="update(element)"> Update</app-btn>
+                </td>
                 <th cdk-footer-cell class="py-3 px-6" *cdkFooterCellDef></th>
             </ng-container>
 
