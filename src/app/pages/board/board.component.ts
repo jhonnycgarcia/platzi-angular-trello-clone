@@ -1,5 +1,7 @@
+import { Dialog } from '@angular/cdk/dialog';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { TodoDialogComponent } from 'src/app/components/todo-dialog/todo-dialog.component';
 import { Column, ToDo } from 'src/app/models/todo.model';
 
 @Component({
@@ -52,7 +54,9 @@ export class BoardComponent implements OnInit {
 
   public dones: ToDo[] = [];
 
-  constructor() { }
+  constructor(
+    private dialogSrv: Dialog
+  ) { }
 
   ngOnInit(): void {
   }
@@ -81,6 +85,16 @@ export class BoardComponent implements OnInit {
       title: 'New Column',
       todos: []
     });
+  }
+
+  openDialog(todo: ToDo){
+    this.dialogSrv.open(TodoDialogComponent, {
+      minWidth: '300px',
+      maxWidth: '50%',
+      autoFocus: false,
+      data: todo
+    });
+
   }
 
 }
