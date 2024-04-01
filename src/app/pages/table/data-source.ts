@@ -30,7 +30,10 @@ export class DataSourceProduct extends DataSource<Product> {
     }
 
     find(query: string){
-        const newProducts = this.originalData.filter((product) => product.title.toLowerCase().includes(query.toLowerCase()));
+        const newProducts = this.originalData.filter((product) => {
+            const seed = [product.title, product.price, product.id].join('-');
+            return seed.toLowerCase().includes(query.toLowerCase())
+        });
         this.data.next(newProducts);
     }
 
